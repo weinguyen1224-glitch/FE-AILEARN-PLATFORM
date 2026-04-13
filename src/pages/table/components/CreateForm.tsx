@@ -1,17 +1,17 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { addRule } from "@/config/ant-design-pro/api";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   type ActionType,
   ModalForm,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
-import { Button, message } from 'antd';
-import type { FC } from 'react';
-import { addRule } from '@/services/ant-design-pro/api';
+} from "@ant-design/pro-components";
+import { FormattedMessage, useIntl, useRequest } from "@umijs/max";
+import { Button, message } from "antd";
+import type { FC } from "react";
 
 interface CreateFormProps {
-  reload?: ActionType['reload'];
+  reload?: ActionType["reload"];
 }
 
 const CreateForm: FC<CreateFormProps> = (props) => {
@@ -27,11 +27,11 @@ const CreateForm: FC<CreateFormProps> = (props) => {
   const { run, loading } = useRequest(addRule, {
     manual: true,
     onSuccess: () => {
-      messageApi.success('Added successfully');
+      messageApi.success("Added successfully");
       reload?.();
     },
     onError: () => {
-      messageApi.error('Adding failed, please try again!');
+      messageApi.error("Adding failed, please try again!");
     },
   });
 
@@ -40,8 +40,8 @@ const CreateForm: FC<CreateFormProps> = (props) => {
       {contextHolder}
       <ModalForm
         title={intl.formatMessage({
-          id: 'pages.searchTable.createForm.newRule',
-          defaultMessage: 'New rule',
+          id: "pages.searchTable.createForm.newRule",
+          defaultMessage: "New rule",
         })}
         trigger={
           <Button type="primary" icon={<PlusOutlined />}>

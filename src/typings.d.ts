@@ -1,3 +1,25 @@
+interface ImportMetaEnv {
+  readonly APP_NAME: string;
+  readonly APP_VERSION: string;
+  readonly APP_LOCALE: string;
+  readonly APP_FALLBACK_LOCALE: string;
+  readonly API_URL: string;
+  readonly API_BASE_URL: string;
+  readonly API_TIMEOUT: string;
+  readonly AUTH_TOKEN_KEY: string;
+  readonly AUTH_REFRESH_TOKEN_KEY: string;
+  readonly AUTH_TOKEN_EXPIRE_AT: string;
+  readonly STORAGE_PREFIX: string;
+  readonly ENABLE_ANALYTICS: string;
+  readonly ENABLE_DEBUG: string;
+  readonly NODE_ENV: string;
+  readonly [key: string]: string | undefined;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
 declare module 'slash2';
 declare module '*.css';
 declare module '*.less';

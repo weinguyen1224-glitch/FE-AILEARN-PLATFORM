@@ -1,4 +1,4 @@
-import { BaseService } from "@/core/service/base.service";
+import { BaseService } from "@/config/service/base.service";
 import {
   Test,
   CreateTestDto,

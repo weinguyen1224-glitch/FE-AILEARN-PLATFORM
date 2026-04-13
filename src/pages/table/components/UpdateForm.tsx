@@ -1,3 +1,4 @@
+import { updateRule } from "@/config/ant-design-pro/api";
 import {
   ProFormDateTimePicker,
   ProFormRadio,
@@ -5,11 +6,10 @@ import {
   ProFormText,
   ProFormTextArea,
   StepsForm,
-} from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
-import { Modal, message } from 'antd';
-import React, { cloneElement, useCallback, useState } from 'react';
-import { updateRule } from '@/services/ant-design-pro/api';
+} from "@ant-design/pro-components";
+import { FormattedMessage, useIntl, useRequest } from "@umijs/max";
+import { Modal, message } from "antd";
+import React, { cloneElement, useCallback, useState } from "react";
 
 export type FormValueType = {
   target?: string;
@@ -37,11 +37,11 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const { run } = useRequest(updateRule, {
     manual: true,
     onSuccess: () => {
-      messageApi.success('Configuration is successful');
+      messageApi.success("Configuration is successful");
       onOk?.();
     },
     onError: () => {
-      messageApi.error('Configuration failed, please try again!');
+      messageApi.error("Configuration failed, please try again!");
     },
   });
 
@@ -59,7 +59,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
       onCancel();
     },
-    [onCancel, run],
+    [onCancel, run]
   );
 
   return (
@@ -72,7 +72,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         : null}
       <StepsForm
         stepsProps={{
-          size: 'small',
+          size: "small",
         }}
         stepsFormRender={(dom, submitter) => {
           return (
@@ -80,13 +80,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
               width={640}
               styles={{
                 body: {
-                  padding: '32px 40px 48px',
+                  padding: "32px 40px 48px",
                 },
               }}
               destroyOnHidden
               title={intl.formatMessage({
-                id: 'pages.searchTable.updateForm.ruleConfig',
-                defaultMessage: '规则配置',
+                id: "pages.searchTable.updateForm.ruleConfig",
+                defaultMessage: "规则配置",
               })}
               open={open}
               footer={submitter}
@@ -101,15 +101,15 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         <StepsForm.StepForm
           initialValues={values}
           title={intl.formatMessage({
-            id: 'pages.searchTable.updateForm.basicConfig',
-            defaultMessage: '基本信息',
+            id: "pages.searchTable.updateForm.basicConfig",
+            defaultMessage: "基本信息",
           })}
         >
           <ProFormText
             name="name"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleName.nameLabel',
-              defaultMessage: '规则名称',
+              id: "pages.searchTable.updateForm.ruleName.nameLabel",
+              defaultMessage: "规则名称",
             })}
             width="md"
             rules={[
@@ -128,12 +128,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             name="desc"
             width="md"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleDesc.descLabel',
-              defaultMessage: '规则描述',
+              id: "pages.searchTable.updateForm.ruleDesc.descLabel",
+              defaultMessage: "规则描述",
             })}
             placeholder={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleDesc.descPlaceholder',
-              defaultMessage: '请输入至少五个字符',
+              id: "pages.searchTable.updateForm.ruleDesc.descPlaceholder",
+              defaultMessage: "请输入至少五个字符",
             })}
             rules={[
               {
@@ -151,72 +151,72 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         </StepsForm.StepForm>
         <StepsForm.StepForm
           initialValues={{
-            target: '0',
-            template: '0',
+            target: "0",
+            template: "0",
           }}
           title={intl.formatMessage({
-            id: 'pages.searchTable.updateForm.ruleProps.title',
-            defaultMessage: '配置规则属性',
+            id: "pages.searchTable.updateForm.ruleProps.title",
+            defaultMessage: "配置规则属性",
           })}
         >
           <ProFormSelect
             name="target"
             width="md"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.object',
-              defaultMessage: '监控对象',
+              id: "pages.searchTable.updateForm.object",
+              defaultMessage: "监控对象",
             })}
             valueEnum={{
-              0: '表一',
-              1: '表二',
+              0: "表一",
+              1: "表二",
             }}
           />
           <ProFormSelect
             name="template"
             width="md"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleProps.templateLabel',
-              defaultMessage: '规则模板',
+              id: "pages.searchTable.updateForm.ruleProps.templateLabel",
+              defaultMessage: "规则模板",
             })}
             valueEnum={{
-              0: '规则模板一',
-              1: '规则模板二',
+              0: "规则模板一",
+              1: "规则模板二",
             }}
           />
           <ProFormRadio.Group
             name="type"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleProps.typeLabel',
-              defaultMessage: '规则类型',
+              id: "pages.searchTable.updateForm.ruleProps.typeLabel",
+              defaultMessage: "规则类型",
             })}
             options={[
               {
-                value: '0',
-                label: '强',
+                value: "0",
+                label: "强",
               },
               {
-                value: '1',
-                label: '弱',
+                value: "1",
+                label: "弱",
               },
             ]}
           />
         </StepsForm.StepForm>
         <StepsForm.StepForm
           initialValues={{
-            type: '1',
-            frequency: 'month',
+            type: "1",
+            frequency: "month",
           }}
           title={intl.formatMessage({
-            id: 'pages.searchTable.updateForm.schedulingPeriod.title',
-            defaultMessage: '设定调度周期',
+            id: "pages.searchTable.updateForm.schedulingPeriod.title",
+            defaultMessage: "设定调度周期",
           })}
         >
           <ProFormDateTimePicker
             name="time"
             width="md"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.schedulingPeriod.timeLabel',
-              defaultMessage: '开始时间',
+              id: "pages.searchTable.updateForm.schedulingPeriod.timeLabel",
+              defaultMessage: "开始时间",
             })}
             rules={[
               {
@@ -233,13 +233,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           <ProFormSelect
             name="frequency"
             label={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.object',
-              defaultMessage: '监控对象',
+              id: "pages.searchTable.updateForm.object",
+              defaultMessage: "监控对象",
             })}
             width="md"
             valueEnum={{
-              month: '月',
-              week: '周',
+              month: "月",
+              week: "周",
             }}
           />
         </StepsForm.StepForm>

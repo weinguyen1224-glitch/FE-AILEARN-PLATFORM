@@ -14,7 +14,7 @@ import ArticleListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import type { ListItemDataType } from './data.d';
-import { queryFakeList } from '@/services/pages';
+import { queryFakeList } from './service';
 import useStyles from './style.style';
 
 const FormItem = Form.Item;
