@@ -15,12 +15,6 @@ export default [
     path: "/welcome",
     name: "welcome",
     icon: "smile",
-    component: "@/pages/test",
-  },
-  {
-    path: "/welcome",
-    name: "welcome",
-    icon: "smile",
     component: "./Welcome",
   },
   {
@@ -37,8 +31,7 @@ export default [
         path: "/admin/sub-page",
         name: "sub-page",
         component: "./Admin",
-      },
-    ],
+      }],
   },
   {
     path: "/dashboard",
@@ -67,8 +60,7 @@ export default [
         icon: "smile",
         path: "/dashboard/workplace",
         component: "@/pages/dashboard/workplace",
-      },
-    ],
+      }],
   },
   {
     path: "/form",
@@ -96,8 +88,7 @@ export default [
         icon: "smile",
         path: "/form/advanced-form",
         component: "@/pages/form/advanced-form",
-      },
-    ],
+      }],
   },
   {
     path: "/list",
@@ -130,8 +121,7 @@ export default [
             icon: "smile",
             path: "/list/search/applications",
             component: "@/pages/list/search/applications",
-          },
-        ],
+          }],
       },
       {
         path: "/list",
@@ -154,8 +144,7 @@ export default [
         icon: "smile",
         path: "/list/card-list",
         component: "@/pages/list/card-list",
-      },
-    ],
+      }],
   },
   {
     path: "/profile",
@@ -177,8 +166,7 @@ export default [
         icon: "smile",
         path: "/profile/advanced",
         component: "@/pages/profile/advanced",
-      },
-    ],
+      }],
   },
   {
     name: "result",
@@ -200,8 +188,7 @@ export default [
         icon: "smile",
         path: "/result/fail",
         component: "@/pages/result/fail",
-      },
-    ],
+      }],
   },
 
   {
@@ -230,8 +217,7 @@ export default [
         icon: "smile",
         path: "/exception/500",
         component: "@/pages/exception/500",
-      },
-    ],
+      }],
   },
   {
     name: "account",
@@ -253,8 +239,7 @@ export default [
         icon: "smile",
         path: "/account/settings",
         component: "@/pages/account/settings",
-      },
-    ],
+      }],
   },
   {
     path: "/",
@@ -264,5 +249,4 @@ export default [
   {
     component: "404",
     path: "./*",
-  },
-];
+  }];

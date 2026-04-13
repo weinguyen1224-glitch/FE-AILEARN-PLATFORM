@@ -52,3 +52,16 @@ export interface SoftDeleteRequest {
 export interface RestoreRequest {
   filter: string;
 }
+
+export type BaseQueryOptions = Record<string, unknown>;
+
+export interface BaseMutationOptions<TData = unknown, TError = unknown> {
+  onSuccess?: (data: TData) => void;
+  onError?: (error: TError) => void;
+  onFinally?: () => void;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}

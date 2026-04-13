@@ -104,11 +104,6 @@ export class BaseApiClient {
         this.retryConfig.retryCondition!(error)
       ) {
         const delay = getRetryDelay(attempt, this.retryConfig.retryDelay);
-        console.warn(
-          `Request failed, retrying in ${delay}ms (attempt ${attempt + 1}/${
-            this.retryConfig.retries
-          })`
-        );
         await new Promise((resolve) => setTimeout(resolve, delay));
         return this.executeWithRetry(operation, attempt + 1);
       }
@@ -116,7 +111,7 @@ export class BaseApiClient {
     }
   }
 
-  protected async request<T>(config: any): Promise<T> {
+  protected async request<T>(config: any) {
     const token = this.getAuthToken();
     const headers: Record<string, string> = {};
 
@@ -133,7 +128,7 @@ export class BaseApiClient {
           ...headers,
           ...config.headers,
         },
-      }).then((res) => res.data as T)
+      }).then((res) => res as T)
     );
   }
 

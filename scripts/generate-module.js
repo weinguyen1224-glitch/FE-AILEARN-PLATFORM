@@ -1,7 +1,89 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+
+/**
+ * Tự động thêm route mới vào config/routes.ts
+ * Route được chèn vào trước dòng redirect "/" ở cuối file
+ */
+function updateRoutes(routesFilePath, moduleNameLower, moduleNameUpper) {
+  if (!fs.existsSync(routesFilePath)) {
+    console.warn("Cannot find routes.ts at: " + routesFilePath);
+    return;
+  }
+
+  const content = fs.readFileSync(routesFilePath, "utf8");
+
+  // Kiem tra route da ton tai chua
+  const checkSingle = "path: '/" + moduleNameLower + "'";
+  const checkDouble = 'path: "/' + moduleNameLower + '"';
+  if (content.includes(checkSingle) || content.includes(checkDouble)) {
+    console.log(
+      "Route /" + moduleNameLower + " da ton tai trong routes.ts, bo qua."
+    );
+    return;
+  }
+
+  const newRoute =
+    "  {\n" +
+    "    path: '/" +
+    moduleNameLower +
+    "',\n" +
+    "    name: '" +
+    moduleNameLower +
+    "',\n" +
+    "    icon: 'table',\n" +
+    "    component: '@/pages/" +
+    moduleNameLower +
+    "',\n" +
+    "  },";
+
+  // Tim vi tri redirect root "/" de chen vao truoc
+  const redirectMarkerDouble = 'path: "/"';
+  const redirectMarkerSingle = "path: '/'";
+  let insertIdx = -1;
+
+  let rIdx = content.indexOf(redirectMarkerDouble);
+  if (rIdx === -1) rIdx = content.indexOf(redirectMarkerSingle);
+
+  if (rIdx !== -1) {
+    // Tim dau cua block { chua redirect nay (tim nguoc len)
+    insertIdx = content.lastIndexOf("\n  {", rIdx);
+    if (insertIdx === -1) insertIdx = content.lastIndexOf("{", rIdx);
+  }
+
+  if (insertIdx !== -1) {
+    const updated =
+      content.slice(0, insertIdx) + "\n" + newRoute + content.slice(insertIdx);
+    fs.writeFileSync(routesFilePath, updated, "utf8");
+    console.log("Da them route /" + moduleNameLower + " vao routes.ts");
+  } else {
+    // Fallback: chen truoc dong component 404
+    const marker404Double = 'component: "404"';
+    const marker404Single = "component: '404'";
+    let idx404 = content.indexOf(marker404Double);
+    if (idx404 === -1) idx404 = content.indexOf(marker404Single);
+
+    if (idx404 !== -1) {
+      const blockStart = content.lastIndexOf("\n  {", idx404);
+      if (blockStart !== -1) {
+        const updated =
+          content.slice(0, blockStart) +
+          "\n" +
+          newRoute +
+          content.slice(blockStart);
+        fs.writeFileSync(routesFilePath, updated, "utf8");
+        console.log(
+          "Da them route /" + moduleNameLower + " vao routes.ts (fallback)"
+        );
+        return;
+      }
+    }
+    console.warn("Khong the tu dong chen route. Them thu cong vao routes.ts:");
+    console.warn(newRoute);
+  }
+}
 
 /**
  * Script generate module for ant-design-pro
@@ -24,26 +106,26 @@ const path = require('path');
 
 const args = process.argv.slice(2);
 if (args.length === 0) {
-  console.error('❌ Vui lòng cung cấp tên module!');
+  console.error("❌ Vui lòng cung cấp tên module!");
   console.log(
-    'Usage: npm run generate:module san-pham [basic|advanced|wizard]',
+    "Usage: npm run generate:module san-pham [basic|advanced|wizard]"
   );
-  console.log('  basic     - Form đơn giản, một trang (mặc định)');
-  console.log('  advanced  - Form có sections, grid layout');
-  console.log('  wizard    - Multi-step form với progress');
+  console.log("  basic     - Form đơn giản, một trang (mặc định)");
+  console.log("  advanced  - Form có sections, grid layout");
+  console.log("  wizard    - Multi-step form với progress");
   process.exit(1);
 }
 
 const rawName = args[0];
-const templateType = args[1] || 'basic';
+const templateType = args[1] || "basic";
 
-if (!['basic', 'advanced', 'wizard'].includes(templateType)) {
-  console.error('❌ Template type không hợp lệ!');
-  console.log('Template types: basic, advanced, wizard');
+if (!["basic", "advanced", "wizard"].includes(templateType)) {
+  console.error("❌ Template type không hợp lệ!");
+  console.log("Template types: basic, advanced, wizard");
   process.exit(1);
 }
 
-const moduleNameLower = rawName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+const moduleNameLower = rawName.toLowerCase().replace(/[^a-z0-9-]/g, "-");
 
 const toCamel = (str) => str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 
@@ -54,18 +136,18 @@ const moduleNameUpper =
   toCamel(rawName).charAt(0).toUpperCase() + toCamel(rawName).slice(1);
 
 console.log(
-  `🚀 Generating module: ${moduleNameUpper} (template: ${templateType})`,
+  `🚀 Generating module: ${moduleNameUpper} (template: ${templateType})`
 );
 
 const root = process.cwd();
 
-const modulesDir = path.join(root, 'src', 'modules');
+const modulesDir = path.join(root, "src", "modules");
 const moduleDir = path.join(modulesDir, moduleNameLower);
-const componentsDir = path.join(moduleDir, 'components');
+const componentsDir = path.join(moduleDir, "components");
 
-const pagesDir = path.join(root, 'src', 'pages', moduleNameLower);
+const pagesDir = path.join(root, "src", "pages", moduleNameLower);
 
-const layers = ['types', 'service', 'hooks', 'components'];
+const layers = ["types", "service", "hooks", "components"];
 const dirs = [moduleDir, ...layers.map((l) => path.join(moduleDir, l))];
 
 dirs.forEach((dir) => {
@@ -114,38 +196,54 @@ export const ${moduleNameCamel}Service = new ${moduleNameUpper}Service();
 
 const hooksTemplate = `import { useRequest } from "@umijs/max";
 import { ${moduleNameCamel}Service } from "../service/${moduleNameLower}.service";
-import {
+import type {
   ${moduleNameUpper},
   Create${moduleNameUpper}Dto,
-  Update${moduleNameUpper}Dto
+  Update${moduleNameUpper}Dto,
 } from "../types/${moduleNameLower}.types";
 
-export const useGet${moduleNameUpper}Page = (options?: any) => {
-  return useRequest(() => ${moduleNameCamel}Service.getPage(options));
+export const useGet${moduleNameUpper}Page = (options?: any, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.getPage(options), {
+    ...queryOptions,
+  });
 };
 
-export const useGet${moduleNameUpper}List = (options?: any) => {
-  return useRequest(() => ${moduleNameCamel}Service.getMany(options));
+export const useGet${moduleNameUpper}List = (options?: any, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.getMany(options), {
+    ...queryOptions,
+  });
 };
 
-export const useCount${moduleNameUpper} = (options?: any) => {
-  return useRequest(() => ${moduleNameCamel}Service.count(options));
+export const useCount${moduleNameUpper} = (options?: any, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.count(options), {
+    ...queryOptions,
+  });
 };
 
-export const useGet${moduleNameUpper}One = (options?: any) => {
-  return useRequest(() => ${moduleNameCamel}Service.getOne(options));
+export const useGet${moduleNameUpper}One = (options?: any, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.getOne(options), {
+    ...queryOptions,
+  });
 };
 
-export const useExists${moduleNameUpper} = (options?: any) => {
-  return useRequest(() => ${moduleNameCamel}Service.exists(options));
+export const useExists${moduleNameUpper} = (options?: any, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.exists(options), {
+    ...queryOptions,
+  });
 };
 
-export const useGet${moduleNameUpper}ById = (id: number | undefined) => {
-  return useRequest(() => ${moduleNameCamel}Service.findById(id!), { ready: !!id });
+export const useGet${moduleNameUpper}ById = (id: number | undefined, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.findById(id!), {
+    ready: !!id,
+    ...queryOptions,
+  });
 };
 
-export const useGet${moduleNameUpper}ByMa = (ma: string | undefined) => {
-  return useRequest(() => ${moduleNameCamel}Service.findByMa(ma!), { ready: !!ma });
+export const useGet${moduleNameUpper}ByMa = (ma: string | undefined, queryOptions?: any) => {
+  return useRequest(() => ${moduleNameCamel}Service.findByMa(ma!), {
+    ready: !!ma,
+    ...queryOptions,
+  });
 };
 
 export const useCreate${moduleNameUpper} = () => {
@@ -878,13 +976,13 @@ export default ${moduleNameUpper}Form;
 `;
 
 const tableTemplate =
-  templateType === 'advanced' ? advancedTableTemplate : basicTableTemplate;
+  templateType === "advanced" ? advancedTableTemplate : basicTableTemplate;
 const formTemplate =
-  templateType === 'wizard'
+  templateType === "wizard"
     ? wizardFormTemplate
-    : templateType === 'advanced'
-      ? advancedFormTemplate
-      : basicFormTemplate;
+    : templateType === "advanced"
+    ? advancedFormTemplate
+    : basicFormTemplate;
 
 const pageTemplate = `import { PageContainer } from "@ant-design/pro-components";
 import type { FC } from 'react';
@@ -959,7 +1057,7 @@ export default ${moduleNameUpper}Page;
 `;
 
 const finalPageTemplate =
-  templateType === 'wizard' ? wizardPageTemplate : pageTemplate;
+  templateType === "wizard" ? wizardPageTemplate : pageTemplate;
 
 const files = [
   { p: `types/${moduleNameLower}.types.ts`, c: typesTemplate },
@@ -970,24 +1068,28 @@ const files = [
 
 files.forEach(({ p, c }) => {
   const full = path.join(moduleDir, p);
-  fs.writeFileSync(full, c, 'utf8');
-  console.log('✅ Created:', full);
+  fs.writeFileSync(full, c, "utf8");
+  console.log("✅ Created:", full);
 });
 
 const tablePath = path.join(componentsDir, `${moduleNameUpper}Table.tsx`);
-fs.writeFileSync(tablePath, tableTemplate, 'utf8');
-console.log('✅ Created:', tablePath);
+fs.writeFileSync(tablePath, tableTemplate, "utf8");
+console.log("✅ Created:", tablePath);
 
 const formPath = path.join(componentsDir, `${moduleNameUpper}Form.tsx`);
-fs.writeFileSync(formPath, formTemplate, 'utf8');
-console.log('✅ Created:', formPath);
+fs.writeFileSync(formPath, formTemplate, "utf8");
+console.log("✅ Created:", formPath);
 
-const pagePath = path.join(pagesDir, 'index.tsx');
-fs.writeFileSync(pagePath, finalPageTemplate, 'utf8');
-console.log('✅ Created:', pagePath);
+const pagePath = path.join(pagesDir, "index.tsx");
+fs.writeFileSync(pagePath, finalPageTemplate, "utf8");
+console.log("✅ Created:", pagePath);
+
+// Tự động cập nhật routes.ts
+const routesFilePath = path.join(root, "config", "routes.ts");
+updateRoutes(routesFilePath, moduleNameLower, moduleNameUpper);
 
 console.log(
-  `\n✨ Module ${moduleNameUpper} generated successfully with "${templateType}" template!`,
+  `\n✨ Module ${moduleNameUpper} generated successfully with "${templateType}" template!`
 );
 console.log(`\n📁 Structure:`);
 console.log(`   src/modules/${moduleNameLower}/`);
@@ -1001,20 +1103,20 @@ console.log(`   └── index.ts`);
 console.log(`   src/pages/${moduleNameLower}/`);
 console.log(`   └── index.tsx`);
 console.log(`\n📋 Template Features (${templateType}):`);
-if (templateType === 'basic') {
+if (templateType === "basic") {
   console.log(`   - Single page form`);
   console.log(`   - Basic table with ID, Name, Description, Actions`);
   console.log(`   - Vertical form layout`);
-} else if (templateType === 'advanced') {
+} else if (templateType === "advanced") {
   console.log(`   - Advanced table with sorting, status tags, fixed columns`);
   console.log(`   - Sectioned form with dividers`);
   console.log(`   - Horizontal form layout with width control`);
-} else if (templateType === 'wizard') {
+} else if (templateType === "wizard") {
   console.log(`   - Multi-step form with progress indicator`);
   console.log(`   - 3 steps: Basic Info -> Additional Info -> Confirmation`);
   console.log(`   - Page with separate wizard button`);
 }
-console.log(`\n⚠️  Remember to add route in config/routes.ts:`);
+console.log(`\n🛣️  Route đã được tự động thêm vào config/routes.ts:`);
 console.log(
-  `   { path: '/${moduleNameLower}', component: '@/pages/${moduleNameLower}' }`,
+  `   { path: '/${moduleNameLower}', name: '${moduleNameLower}', icon: 'table', component: '@/pages/${moduleNameLower}' }`
 );

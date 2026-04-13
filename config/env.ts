@@ -105,25 +105,6 @@ export const ENV = {
     ),
   },
 
-  // ── Auth ───────────────────────────────────────────────────────────────────
-  auth: {
-    tokenKey: e(
-      "UMI_APP_AUTH_TOKEN_KEY",
-      "access_token",
-      process.env.UMI_APP_AUTH_TOKEN_KEY
-    ),
-    refreshTokenKey: e(
-      "UMI_APP_AUTH_REFRESH_TOKEN_KEY",
-      "refresh_token",
-      process.env.UMI_APP_AUTH_REFRESH_TOKEN_KEY
-    ),
-    tokenExpireAt: e(
-      "UMI_APP_AUTH_TOKEN_EXPIRE_AT",
-      "token_expire_at",
-      process.env.UMI_APP_AUTH_TOKEN_EXPIRE_AT
-    ),
-  },
-
   // ── Storage ────────────────────────────────────────────────────────────────
   storage: {
     prefix: e(
