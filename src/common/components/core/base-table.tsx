@@ -54,7 +54,7 @@ function BaseTable<T extends object>({
         showSizeChanger: true,
         showQuickJumper: true,
         showTotal: (total: number, range: [number, number]) =>
-          `${range[0]}-${range[1]} của ${total}`,
+          `${range[0]}-${range[1]} trên ${total}`,
         pageSizeOptions: ["10", "20", "50", "100"],
       }}
       columns={columns}

@@ -19,10 +19,11 @@ export interface BaseFormProps extends ProFormProps<any> {
   cardSubtitle?: string;
   actionsPosition?: "start" | "center" | "end";
   children?: ReactNode;
+  isSubmitting?: boolean;
 }
 
 const BaseForm: React.FC<BaseFormProps> = ({
-  submitText = "Lưu lại",
+  submitText = "Lưu",
   cancelText = "Hủy",
   loading = false,
   showReset = false,
@@ -32,6 +33,7 @@ const BaseForm: React.FC<BaseFormProps> = ({
   cardTitle,
   cardSubtitle,
   actionsPosition = "start",
+  isSubmitting,
   children,
   ...restProps
 }) => {
@@ -63,9 +65,6 @@ const BaseForm: React.FC<BaseFormProps> = ({
             {cancelText}
           </Button>
         )}
-        <Button type="primary" htmlType="submit" loading={loading}>
-          {submitText}
-        </Button>
       </div>
     </>
   );
