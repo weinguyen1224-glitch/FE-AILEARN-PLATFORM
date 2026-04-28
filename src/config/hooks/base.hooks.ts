@@ -1,54 +1,54 @@
-import { useRequest } from '@umijs/max';
-import type { BaseService } from '../service/base.service';
+import { useRequest } from "@umijs/max";
+import type { BaseService } from "../service/base.service";
 import type {
   BaseEntity,
   BaseMutationOptions,
   QueryOptions,
-} from '../types/base.types';
+} from "../types/base.types";
 
 export function createBaseHooks<
   TEntity extends BaseEntity,
   TCreateDto = Partial<TEntity>,
-  TUpdateDto = Partial<TEntity>,
+  TUpdateDto = Partial<TEntity>
 >(queryKey: string, service: BaseService<TEntity, TCreateDto, TUpdateDto>) {
   const useGetPage = (
     options?: QueryOptions,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.getPage(options), queryOptions);
   };
 
   const useGetMany = (
     options?: QueryOptions,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.getMany(options), queryOptions);
   };
 
   const useCount = (
     options?: QueryOptions,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.count(options), queryOptions);
   };
 
   const useGetOne = (
     options?: QueryOptions,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.getOne(options), queryOptions);
   };
 
   const useExists = (
     options?: QueryOptions,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.exists(options), queryOptions);
   };
 
   const useFindById = (
     id: number | undefined,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.findById(id!), {
       ready: !!id,
@@ -58,7 +58,7 @@ export function createBaseHooks<
 
   const useFindByMa = (
     ma: string | undefined,
-    queryOptions?: Record<string, unknown>,
+    queryOptions?: Record<string, unknown>
   ) => {
     return useRequest(() => service.findByMa(ma!), {
       ready: !!ma,
@@ -71,7 +71,7 @@ export function createBaseHooks<
       (data: TCreateDto) => service.create(data).then((res) => res.data),
       {
         manual: true,
-      },
+      }
     );
   };
 
@@ -81,7 +81,7 @@ export function createBaseHooks<
         service.update(id, data).then((res) => res.data),
       {
         manual: true,
-      },
+      }
     );
   };
 
@@ -94,14 +94,14 @@ export function createBaseHooks<
         filter: Record<string, unknown>;
         data: Partial<TEntity>;
       }) => service.updateMany(filter, data).then((res) => res.data),
-      { manual: true },
+      { manual: true }
     );
   };
 
   const useRemove = () => {
     return useRequest(
       (id: number) => service.remove(id).then((res) => res.data),
-      { manual: true },
+      { manual: true }
     );
   };
 
@@ -112,11 +112,11 @@ export function createBaseHooks<
         return {
           affected: results.reduce(
             (sum, result) => sum + result.data.affected,
-            0,
+            0
           ),
         };
       },
-      { manual: true },
+      { manual: true }
     );
   };
 
@@ -124,7 +124,7 @@ export function createBaseHooks<
     return useRequest(
       (filter: Record<string, unknown>) =>
         service.deleteMany(filter).then((res) => res.data),
-      { manual: true },
+      { manual: true }
     );
   };
 
@@ -132,7 +132,7 @@ export function createBaseHooks<
     return useRequest(
       (filter: Record<string, unknown>) =>
         service.softDelete(filter).then((res) => res.data),
-      { manual: true },
+      { manual: true }
     );
   };
 
@@ -140,7 +140,7 @@ export function createBaseHooks<
     return useRequest(
       (filter: Record<string, unknown>) =>
         service.restore(filter).then((res) => res.data),
-      { manual: true },
+      { manual: true }
     );
   };
 

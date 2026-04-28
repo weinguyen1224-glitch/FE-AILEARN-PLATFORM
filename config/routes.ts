@@ -242,6 +242,18 @@ export default [
       }],
   },
   {
+    path: '/test',
+    name: 'test',
+    icon: 'table',
+    component: '@/pages/test',
+  },
+  {
+    path: '/user',
+    name: 'user',
+    icon: 'table',
+    component: '@/pages/user',
+  },
+  {
     path: "/",
     redirect: "/dashboard/analysis",
   },
