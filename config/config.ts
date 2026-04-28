@@ -120,6 +120,12 @@ export default defineConfig({
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
+    // Thêm các locale tùy chỉnh
+    antdLocaleConfig: {
+      "vi-VN": {
+        locale: "vi-VN",
+      },
+    },
   },
   /**
    * @name antd 插件

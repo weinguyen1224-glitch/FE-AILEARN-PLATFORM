@@ -1,3 +1,8 @@
+// Set default locale for pro-components before any imports
+if (typeof window !== 'undefined') {
+  window.g_locale = 'vi-VN';
+}
+
 const originalWarn = console.warn;
 console.warn = (...args: any[]) => {
   const msg = args[0];
@@ -43,7 +48,7 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     return undefined;
   };
-  // 如果不是登录页面，执行
+  // Nếu không phải trang đăng nhập, thực thi
   const { location } = history;
   if (
     ![loginPath, "/user/register", "/user/register-result"].includes(
@@ -96,7 +101,7 @@ export const layout: RunTimeLayoutConfig = ({
     footerRender: () => <Footer />,
     onPageChange: () => {
       // const { location } = history;
-      // // 如果没有登录，重定向到 login
+      // // Nếu chưa đăng nhập, chuyển hướng đến login
       // if (!initialState?.currentUser && location.pathname !== loginPath) {
       //   history.push(loginPath);
       // }
@@ -130,9 +135,9 @@ export const layout: RunTimeLayoutConfig = ({
         ]
       : [],
     menuHeaderRender: undefined,
-    // 自定义 403 页面
+    // Tùy chỉnh trang 403
     // unAccessible: <div>unAccessible</div>,
-    // 增加一个 loading 的状态
+    // Thêm trạng thái loading
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
@@ -160,7 +165,7 @@ export const layout: RunTimeLayoutConfig = ({
 
 /**
  * @name request 配置，可以配置错误处理
- * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
+ * 它基于 axios và ahooks 的 useRequest 提供了一套统一的网络请求 và错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {

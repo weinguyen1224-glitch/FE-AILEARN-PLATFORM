@@ -25,7 +25,7 @@ export default [
   },
   {
     path: "/",
-    redirect: "/dashboard/analysis",
+    redirect: "/welcome",
   },
   // {
   //   path: "/admin",
