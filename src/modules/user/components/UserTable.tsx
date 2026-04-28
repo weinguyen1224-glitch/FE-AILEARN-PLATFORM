@@ -3,9 +3,12 @@ import { Button, Space } from "antd";
 import type { FC } from "react";
 import React from "react";
 
-import BaseModal from "@/common/components/core/base-modal";
 import BaseTable from "@/common/components/core/base-table";
-import { useDeleteUser, useGetUserPage } from "../hooks/user.hooks";
+import BaseModal from "@/common/components/core/base-modal";
+import {
+  useGetUserPage,
+  useDeleteUser,
+} from "../hooks/user.hooks";
 import type { User } from "../types/user.types";
 
 import type { UserFormRef } from "./UserForm";
@@ -19,14 +22,11 @@ const UserTable: FC<UserTableProps> = ({ onEdit }) => {
   const { data, loading, refresh } = useGetUserPage();
   const { run: deleteRecord, loading: deleting } = useDeleteUser();
 
-  const [
-    deleteModalOpen,
-    { setTrue: openDeleteModal, setFalse: closeDeleteModal },
-  ] = useBoolean(false);
+  const [deleteModalOpen, { setTrue: openDeleteModal, setFalse: closeDeleteModal }] =
+    useBoolean(false);
   const [selectedRecord, setSelectedRecord] = React.useState<User | null>(null);
 
-  const [formOpen, { setTrue: openForm, setFalse: closeForm }] =
-    useBoolean(false);
+  const [formOpen, { setTrue: openForm, setFalse: closeForm }] = useBoolean(false);
   const formRef = React.useRef<UserFormRef>(null);
 
   const handleDelete = (record: User) => {
@@ -94,9 +94,7 @@ const UserTable: FC<UserTableProps> = ({ onEdit }) => {
   ];
 
   const deleteContent = selectedRecord?.id
-    ? "Bạn có chắc chắn muốn xóa '" +
-      selectedRecord.name +
-      "'? Hành động này không thể hoàn tác."
+    ? "Bạn có chắc chắn muốn xóa '" + selectedRecord.name + "'? Hành động này không thể hoàn tác."
     : "Bạn có chắc chắn muốn xóa?";
 
   return (
