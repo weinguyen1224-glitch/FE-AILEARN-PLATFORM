@@ -1,123 +1,245 @@
 import {
-  Button,
-  Form,
-  type FormItemProps,
-  type FormProps,
-  Input,
-  InputNumber,
-  Select,
-} from "antd";
-import React, { type ReactNode } from "react";
+  ModalForm,
+  ProForm,
+  type ProFormProps,
+} from "@ant-design/pro-components";
+import { Button, Card, Divider } from "antd";
+import type { ReactElement, ReactNode } from "react";
+import React, { useState } from "react";
 
-type FormLayout = "horizontal" | "vertical" | "inline";
+export interface BaseFormProps extends ProFormProps<any> {
+  submitText?: string;
+  cancelText?: string;
+  loading?: boolean;
+  showReset?: boolean;
+  resetText?: string;
+  onCancel?: () => void;
+  carded?: boolean;
+  cardTitle?: string;
+  cardSubtitle?: string;
+  actionsPosition?: "start" | "center" | "end";
+  children?: ReactNode;
+}
+
+const BaseForm: React.FC<BaseFormProps> = ({
+  submitText = "Lưu lại",
+  cancelText = "Hủy",
+  loading = false,
+  showReset = false,
+  resetText = "Đặt lại",
+  onCancel,
+  carded = false,
+  cardTitle,
+  cardSubtitle,
+  actionsPosition = "start",
+  children,
+  ...restProps
+}) => {
+  const content = (
+    <>
+      {children}
+      <div
+        style={{
+          display: "flex",
+          justifyContent:
+            actionsPosition === "end"
+              ? "flex-end"
+              : actionsPosition === "center"
+              ? "center"
+              : "flex-start",
+          gap: 12,
+          marginTop: 24,
+          paddingTop: 16,
+          borderTop: "1px solid #f0f0f0",
+        }}
+      >
+        {showReset && (
+          <Button htmlType="reset" disabled={loading}>
+            {resetText}
+          </Button>
+        )}
+        {onCancel && (
+          <Button onClick={onCancel} disabled={loading}>
+            {cancelText}
+          </Button>
+        )}
+        <Button type="primary" htmlType="submit" loading={loading}>
+          {submitText}
+        </Button>
+      </div>
+    </>
+  );
+
+  if (carded) {
+    return (
+      <Card
+        title={
+          cardTitle && (
+            <span style={{ fontWeight: 600, fontSize: 16 }}>{cardTitle}</span>
+          )
+        }
+        extra={
+          cardSubtitle && (
+            <span style={{ fontSize: 13, color: "#8c8c8c" }}>
+              {cardSubtitle}
+            </span>
+          )
+        }
+        style={{
+          borderRadius: 12,
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+        }}
+        styles={{ body: { padding: 24 } }}
+      >
+        <ProForm submitter={false} {...restProps}>
+          {content}
+        </ProForm>
+      </Card>
+    );
+  }
+
+  return (
+    <ProForm submitter={false} {...restProps}>
+      {content}
+    </ProForm>
+  );
+};
+
+export interface BaseModalFormProps {
+  trigger?: ReactElement;
+  title?: string;
+  width?: number | string;
+  loading?: boolean;
+  onFinish?: (values: any) => Promise<boolean | void>;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onCancel?: () => void;
+  children?: ReactNode;
+}
+
+const BaseModalForm: React.FC<BaseModalFormProps> = ({
+  trigger,
+  title = "Form",
+  width = 400,
+  onFinish,
+  open,
+  onOpenChange,
+  onCancel,
+  children,
+}) => {
+  return (
+    <ModalForm
+      title={title}
+      trigger={trigger}
+      width={width}
+      open={open}
+      onOpenChange={onOpenChange}
+      onFinish={onFinish}
+      modalProps={{
+        destroyOnHidden: true,
+        onCancel,
+      }}
+    >
+      {children}
+    </ModalForm>
+  );
+};
 
 export interface BaseFormSectionProps {
   title?: string;
+  icon?: ReactNode;
   children: ReactNode;
+  collapsible?: boolean;
+  defaultCollapsed?: boolean;
 }
 
 export const BaseFormSection: React.FC<BaseFormSectionProps> = ({
   title,
+  icon,
   children,
+  collapsible = false,
+  defaultCollapsed = false,
 }) => {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
+
   return (
-    <div style={{ marginBottom: 24 }}>
+    <div
+      style={{
+        marginBottom: 24,
+        border: "1px solid #f0f0f0",
+        borderRadius: 8,
+        overflow: "hidden",
+      }}
+    >
       {title && (
-        <div style={{ fontWeight: 500, marginBottom: 16, color: "#333" }}>
-          {title}
+        <div
+          onClick={() => collapsible && setCollapsed(!collapsed)}
+          style={{
+            padding: "12px 16px",
+            background: "#fafafa",
+            borderBottom: collapsed ? "none" : "1px solid #f0f0f0",
+            fontWeight: 600,
+            fontSize: 14,
+            color: "#262626",
+            cursor: collapsible ? "pointer" : "default",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            userSelect: "none",
+          }}
+        >
+          {icon && <span style={{ color: "#1890ff" }}>{icon}</span>}
+          <span>{title}</span>
+          {collapsible && (
+            <span
+              style={{
+                marginLeft: "auto",
+                transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)",
+                transition: "transform 0.2s",
+                fontSize: 10,
+              }}
+            >
+              ▼
+            </span>
+          )}
         </div>
       )}
-      {children}
+      {!collapsed && <div style={{ padding: "16px 20px" }}>{children}</div>}
     </div>
   );
 };
 
-export interface BaseFormItemProps extends FormItemProps {
-  type?:
-    | "text"
-    | "textarea"
-    | "number"
-    | "select"
-    | "date"
-    | "datetime"
-    | "custom";
-  options?: { label: string; value: string | number }[];
-  placeholder?: string;
-  mode?: "multiple" | "tags";
+export interface BaseFormDividerProps {
+  title?: string;
+  orientation?: "left" | "center" | "right";
+  dashed?: boolean;
 }
 
-export const BaseFormItem: React.FC<BaseFormItemProps> = ({
-  type = "text",
-  options,
-  placeholder,
-  mode,
-  children,
-  ...itemProps
+export const BaseFormDivider: React.FC<BaseFormDividerProps> = ({
+  title,
+  orientation = "center",
+  dashed = false,
 }) => {
-  if (type === "custom" || children) {
-    return <Form.Item {...itemProps}>{children}</Form.Item>;
-  }
-
-  const commonProps = {
-    placeholder:
-      placeholder ||
-      (type === "textarea" ? "Nhập mô tả" : `Nhập ${itemProps.label || ""}`),
-  };
-
-  switch (type) {
-    case "textarea":
-      return (
-        <Form.Item {...itemProps}>
-          <Input.TextArea {...commonProps} rows={3} />
-        </Form.Item>
-      );
-    case "number":
-      return (
-        <Form.Item {...itemProps}>
-          <InputNumber style={{ width: "100%" }} {...commonProps} />
-        </Form.Item>
-      );
-    case "select":
-      return (
-        <Form.Item {...itemProps}>
-          <Select placeholder={placeholder || "Chọn..."} mode={mode}>
-            {options?.map((opt) => (
-              <Select.Option key={opt.value} value={opt.value}>
-                {opt.label}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      );
-    case "date":
-      return (
-        <Form.Item {...itemProps}>
-          <Input type="date" {...commonProps} />
-        </Form.Item>
-      );
-    case "datetime":
-      return (
-        <Form.Item {...itemProps}>
-          <Input type="datetime-local" {...commonProps} />
-        </Form.Item>
-      );
-    case "text":
-    default:
-      return (
-        <Form.Item {...itemProps}>
-          <Input {...commonProps} />
-        </Form.Item>
-      );
-  }
+  return (
+    <Divider style={{ margin: "20px 0" }}>
+      {title && (
+        <span style={{ fontWeight: 500, fontSize: 14, color: "#595959" }}>
+          {title}
+        </span>
+      )}
+    </Divider>
+  );
 };
 
 export interface BaseFormGridProps {
   columns?: number;
+  gap?: number | string;
   children: ReactNode;
 }
 
 export const BaseFormGrid: React.FC<BaseFormGridProps> = ({
   columns = 2,
+  gap = 16,
   children,
 }) => {
   return (
@@ -125,7 +247,7 @@ export const BaseFormGrid: React.FC<BaseFormGridProps> = ({
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gap: "16px 24px",
+        gap: typeof gap === "number" ? `${gap}px` : gap,
       }}
     >
       {children}
@@ -133,85 +255,17 @@ export const BaseFormGrid: React.FC<BaseFormGridProps> = ({
   );
 };
 
-export interface BaseFormLayoutProps {
-  direction?: "rtl" | "ltr";
-  children: ReactNode;
-}
+export {
+  ModalForm,
+  ProForm,
+  ProFormDatePicker,
+  ProFormDateRangePicker,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from "@ant-design/pro-components";
 
-export const BaseFormLayout: React.FC<BaseFormLayoutProps> = ({
-  direction = "ltr",
-  children,
-}) => {
-  return (
-    <div
-      style={{
-        direction,
-        display: "flex",
-        flexDirection: direction === "rtl" ? "row-reverse" : "row",
-        gap: "24px",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+export type { ModalFormProps, ProFormProps } from "@ant-design/pro-components";
 
-export interface BaseFormProps extends Omit<FormProps, "layout" | "children"> {
-  layout?: FormLayout;
-  labelCol?: { span: number };
-  wrapperCol?: { span: number };
-  submitText?: string;
-  cancelText?: string;
-  isSubmitting?: boolean;
-  showActions?: boolean;
-  onCancel?: () => void;
-  children?: ReactNode;
-}
-
-const BaseForm: React.FC<BaseFormProps> = ({
-  layout = "horizontal",
-  labelCol = { span: 6 },
-  wrapperCol = { span: 18 },
-  submitText = "Submit",
-  cancelText = "Hủy",
-  isSubmitting = false,
-  showActions = true,
-  onCancel,
-  children,
-  ...formProps
-}) => {
-  return (
-    <Form
-      layout={layout}
-      labelCol={labelCol}
-      wrapperCol={wrapperCol}
-      {...formProps}
-    >
-      {children}
-      {showActions && (
-        <Form.Item
-          wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
-        >
-          <Button type="primary" htmlType="submit" loading={isSubmitting}>
-            {submitText}
-          </Button>
-          {onCancel && <Button onClick={onCancel}>{cancelText}</Button>}
-        </Form.Item>
-      )}
-    </Form>
-  );
-};
-
-type BaseFormCompound = React.FC<BaseFormProps> & {
-  Section: typeof BaseFormSection;
-  Item: typeof BaseFormItem;
-  Grid: typeof BaseFormGrid;
-  Layout: typeof BaseFormLayout;
-};
-
-(BaseForm as BaseFormCompound).Section = BaseFormSection;
-(BaseForm as BaseFormCompound).Item = BaseFormItem;
-(BaseForm as BaseFormCompound).Grid = BaseFormGrid;
-(BaseForm as BaseFormCompound).Layout = BaseFormLayout;
-
-export default BaseForm as BaseFormCompound;
+export default BaseForm;
