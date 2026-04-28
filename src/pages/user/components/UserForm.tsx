@@ -1,12 +1,15 @@
-import { Form, Input } from "antd";
-import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
+import { Form, Input, Select } from "antd";
+import React, { useImperativeHandle, forwardRef, useCallback, useState } from "react";
 
 import BaseForm from "@/common/components/core/base-form";
-import { useCreateUser, useUpdateUser } from "@/modules/user/hooks/user.hooks";
+import {
+  useCreateUser,
+  useUpdateUser,
+} from "@/modules/user/hooks/user.hooks";
 import type {
+  User,
   CreateUserDto,
   UpdateUserDto,
-  User,
 } from "@/modules/user/types/user.types";
 
 export interface UserFormRef {
@@ -58,42 +61,78 @@ const UserForm = forwardRef<UserFormRef, { onSuccess?: () => void }>(
         submitText={editingId ? "Cập nhật" : "Thêm mới"}
         layout="vertical"
       >
-        <Form.Item label="Username" name="username">
+        <Form.Item
+          label="Username"
+          name="username"
+
+        >
           <Input placeholder="Nhập Username" />
         </Form.Item>
-        <Form.Item label="Password" name="password">
+        <Form.Item
+          label="Password"
+          name="password"
+
+        >
           <Input placeholder="Nhập Password" />
         </Form.Item>
-        <Form.Item label="SoDienThoai" name="soDienThoai">
+        <Form.Item
+          label="SoDienThoai"
+          name="soDienThoai"
+
+        >
           <Input placeholder="Nhập SoDienThoai" />
         </Form.Item>
-        <Form.Item label="NgaySinh" name="ngaySinh">
+        <Form.Item
+          label="NgaySinh"
+          name="ngaySinh"
+
+        >
           <Input placeholder="Nhập NgaySinh" />
         </Form.Item>
-        <Form.Item label="AvatarUrl" name="avatarUrl">
+        <Form.Item
+          label="AvatarUrl"
+          name="avatarUrl"
+
+        >
           <Input placeholder="Nhập AvatarUrl" />
         </Form.Item>
-        <Form.Item label="DiaChi" name="diaChi">
+        <Form.Item
+          label="DiaChi"
+          name="diaChi"
+
+        >
           <Input placeholder="Nhập DiaChi" />
         </Form.Item>
-        <Form.Item label="Email" name="email">
+        <Form.Item
+          label="Email"
+          name="email"
+
+        >
           <Input placeholder="Nhập Email" />
         </Form.Item>
         <Form.Item
           label="HoTen"
           name="hoTen"
-          rules={[{ required: true, message: "Vui lòng nhập HoTen" }]}
+rules={[{ required: true, message: 'Vui lòng nhập HoTen' }]}
         >
           <Input placeholder="Nhập HoTen" />
         </Form.Item>
         <Form.Item
           label="VaiTro"
           name="vaiTro"
-          rules={[{ required: true, message: "Vui lòng nhập VaiTro" }]}
+rules={[{ required: true, message: 'Vui lòng nhập VaiTro' }]}
         >
-          <Input placeholder="Nhập VaiTro" />
+          <Select placeholder="Chọn VaiTro">
+        <Select.Option value="Quản trị viên" key="Quản trị viên">Quản trị viên</Select.Option>
+        <Select.Option value="Nhân viên" key="Nhân viên">Nhân viên</Select.Option>
+        <Select.Option value="Khách hàng" key="Khách hàng">Khách hàng</Select.Option>
+          </Select>
         </Form.Item>
-        <Form.Item label="Active" name="active">
+        <Form.Item
+          label="Active"
+          name="active"
+
+        >
           <Input placeholder="Nhập Active" />
         </Form.Item>
       </BaseForm>

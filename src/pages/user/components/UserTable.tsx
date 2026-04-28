@@ -4,10 +4,13 @@ import type { SorterResult } from "antd/es/table/interface";
 import type { FC } from "react";
 import React from "react";
 
-import BaseModal from "@/common/components/core/base-modal";
 import BaseTable from "@/common/components/core/base-table";
+import BaseModal from "@/common/components/core/base-modal";
 import { qb } from "@/common/utils/query-builder";
-import { useDeleteUser, useGetUserPage } from "@/modules/user/hooks/user.hooks";
+import {
+  useGetUserPage,
+  useDeleteUser,
+} from "@/modules/user/hooks/user.hooks";
 import type { User } from "@/modules/user/types/user.types";
 
 import type { UserFormRef } from "./UserForm";
@@ -23,14 +26,10 @@ const UserTable: FC = () => {
   );
   const { run: deleteRecord, loading: deleting } = useDeleteUser();
 
-  const [
-    deleteModalOpen,
-    { setTrue: openDeleteModal, setFalse: closeDeleteModal },
-  ] = useBoolean(false);
+  const [deleteModalOpen, { setTrue: openDeleteModal, setFalse: closeDeleteModal }] = useBoolean(false);
   const [selectedRecord, setSelectedRecord] = React.useState<User | null>(null);
 
-  const [formOpen, { setTrue: openForm, setFalse: closeForm }] =
-    useBoolean(false);
+  const [formOpen, { setTrue: openForm, setFalse: closeForm }] = useBoolean(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const formRef = React.useRef<UserFormRef>(null);
 
@@ -102,42 +101,31 @@ const UserTable: FC = () => {
   };
 
   const columns = [
-    { title: "Mã", dataIndex: "ma", key: "ma", width: 120, sorter: true },
-    { title: "Username", dataIndex: "username", key: "username", sorter: true },
-    { title: "Password", dataIndex: "password", key: "password" },
+    { title: 'Mã', dataIndex: 'ma', key: 'ma', width: 120, sorter: true },
+    { title: 'Username', dataIndex: 'username', key: 'username', sorter: true },
+    { title: 'Password', dataIndex: 'password', key: 'password', sorter: true },
+    { title: 'SoDienThoai', dataIndex: 'soDienThoai', key: 'soDienThoai', sorter: true },
+    { title: 'NgaySinh', dataIndex: 'ngaySinh', key: 'ngaySinh', sorter: true },
+    { title: 'AvatarUrl', dataIndex: 'avatarUrl', key: 'avatarUrl', sorter: true },
+    { title: 'DiaChi', dataIndex: 'diaChi', key: 'diaChi', sorter: true },
+    { title: 'Email', dataIndex: 'email', key: 'email', sorter: true },
+    { title: 'HoTen', dataIndex: 'hoTen', key: 'hoTen', sorter: true },
+    { title: 'VaiTro', dataIndex: 'vaiTro', key: 'vaiTro', sorter: true },
+    { title: 'Active', dataIndex: 'active', key: 'active', sorter: true },
     {
-      title: "Số điện thoại",
-      dataIndex: "soDienThoai",
-      key: "soDienThoai",
-      sorter: true,
-    },
-    { title: "NgaySinh", dataIndex: "ngaySinh", key: "ngaySinh", sorter: true },
-    { title: "AvatarUrl", dataIndex: "avatarUrl", key: "avatarUrl" },
-    { title: "DiaChi", dataIndex: "diaChi", key: "diaChi" },
-    { title: "Email", dataIndex: "email", key: "email", sorter: true },
-    { title: "HoTen", dataIndex: "hoTen", key: "hoTen", sorter: true },
-    { title: "VaiTro", dataIndex: "vaiTro", key: "vaiTro", sorter: true },
-    { title: "Active", dataIndex: "active", key: "active", sorter: true },
-    {
-      title: "Thao tác",
-      key: "actions",
+      title: 'Thao tác',
+      key: 'actions',
       width: 150,
       render: (_: any, record: User) => (
         <Space>
-          <Button type="link" onClick={() => handleEdit(record)}>
-            Sửa
-          </Button>
-          <Button type="link" danger onClick={() => handleDelete(record)}>
-            Xóa
-          </Button>
+          <Button type="link" onClick={() => handleEdit(record)}>Sửa</Button>
+          <Button type="link" danger onClick={() => handleDelete(record)}>Xóa</Button>
         </Space>
       ),
-    },
+    }
   ];
 
-  const deleteContent = selectedRecord?.id
-    ? "Bạn có chắc chắn muốn xóa?"
-    : "Xác nhận xóa?";
+  const deleteContent = selectedRecord?.id ? "Bạn có chắc chắn muốn xóa?" : "Xác nhận xóa?";
 
   return (
     <>
@@ -145,9 +133,7 @@ const UserTable: FC = () => {
         headerTitle={
           <Space>
             {loading && <Spin size="small" />}
-            <Button type="primary" onClick={handleCreate}>
-              Thêm mới
-            </Button>
+            <Button type="primary" onClick={handleCreate}>Thêm mới</Button>
           </Space>
         }
         loading={loading}
@@ -157,9 +143,7 @@ const UserTable: FC = () => {
         pagination={data?.pagination}
         onChange={handleTableChange}
         onSubmit={handleSearch}
-        search={{
-          labelWidth: 120,
-        }}
+        search={{ labelWidth: 120 }}
       />
 
       <BaseModal.Form

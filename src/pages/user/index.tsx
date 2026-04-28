@@ -1,15 +1,11 @@
 import { PageContainer } from "@ant-design/pro-components";
-import type { FC } from 'react';
-import React from 'react';
+import type { FC } from "react";
 
-import UserTable from './components/UserTable';
+import UserTable from "./components/UserTable";
 
 const UserPage: FC = () => {
   return (
-    <PageContainer
-      title="Quản lý User"
-      subTitle="Danh sách và thao tác"
-    >
+    <PageContainer title="Quản lý User">
       <div style={{ padding: 24 }}>
         <UserTable />
       </div>

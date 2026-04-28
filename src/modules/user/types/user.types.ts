@@ -1,4 +1,5 @@
 import { BaseEntity } from "@/config/types/base.types";
+import { VaiTro } from "../common/constants";
 
 export interface User extends BaseEntity {
   username?: string;
@@ -9,14 +10,14 @@ export interface User extends BaseEntity {
   diaChi?: string;
   email?: string;
   hoTen: string;
-  vaiTro: "Quản trị viên" | "Nhân viên" | "Khách hàng";
+  vaiTro: VaiTro;
   active?: boolean;
 }
 
 export interface CreateUserDto
-  extends Omit<
-    User,
-    "id" | "createdAt" | "updatedAt" | "deletedAt" | "stt" | "ma"
-  > {}
+  extends Omit<User, "id" | "createdAt" | "updatedAt" | "deletedAt" | "stt" | "ma"> {
+}
 
-export interface UpdateUserDto extends Partial<CreateUserDto> {}
+export interface UpdateUserDto
+  extends Partial<CreateUserDto> {
+}

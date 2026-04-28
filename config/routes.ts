@@ -18,241 +18,241 @@ export default [
     component: "./Welcome",
   },
   {
-    path: "/admin",
-    name: "admin",
-    icon: "crown",
-    access: "canAdmin",
-    routes: [
-      {
-        path: "/admin",
-        redirect: "/admin/sub-page",
-      },
-      {
-        path: "/admin/sub-page",
-        name: "sub-page",
-        component: "./Admin",
-      }],
-  },
-  {
-    path: "/dashboard",
-    name: "dashboard",
-    icon: "dashboard",
-    routes: [
-      {
-        path: "/dashboard",
-        redirect: "/dashboard/analysis",
-      },
-
-      {
-        name: "analysis",
-        icon: "smile",
-        path: "/dashboard/analysis",
-        component: "@/pages/dashboard/analysis",
-      },
-      {
-        name: "monitor",
-        icon: "smile",
-        path: "/dashboard/monitor",
-        component: "@/pages/dashboard/monitor",
-      },
-      {
-        name: "workplace",
-        icon: "smile",
-        path: "/dashboard/workplace",
-        component: "@/pages/dashboard/workplace",
-      }],
-  },
-  {
-    path: "/form",
-    icon: "form",
-    name: "form",
-    routes: [
-      {
-        path: "/form",
-        redirect: "/form/basic-form",
-      },
-      {
-        name: "basic-form",
-        icon: "smile",
-        path: "/form/basic-form",
-        component: "@/pages/form/basic-form",
-      },
-      {
-        name: "step-form",
-        icon: "smile",
-        path: "/form/step-form",
-        component: "@/pages/form/step-form",
-      },
-      {
-        name: "advanced-form",
-        icon: "smile",
-        path: "/form/advanced-form",
-        component: "@/pages/form/advanced-form",
-      }],
-  },
-  {
-    path: "/list",
+    path: "/user",
+    name: "user",
     icon: "table",
-    name: "list",
-    routes: [
-      {
-        path: "/list/search",
-        name: "search-list",
-        component: "@/pages/list/search",
-        routes: [
-          {
-            path: "/list/search",
-            redirect: "/list/search/articles",
-          },
-          {
-            name: "articles",
-            icon: "smile",
-            path: "/list/search/articles",
-            component: "@/pages/list/search/articles",
-          },
-          {
-            name: "projects",
-            icon: "smile",
-            path: "/list/search/projects",
-            component: "@/pages/list/search/projects",
-          },
-          {
-            name: "applications",
-            icon: "smile",
-            path: "/list/search/applications",
-            component: "@/pages/list/search/applications",
-          }],
-      },
-      {
-        path: "/list",
-        redirect: "/list/table-list",
-      },
-      {
-        name: "table-list",
-        icon: "smile",
-        path: "/list/table-list",
-        component: "@/pages/table",
-      },
-      {
-        name: "basic-list",
-        icon: "smile",
-        path: "/list/basic-list",
-        component: "@/pages/list/basic-list",
-      },
-      {
-        name: "card-list",
-        icon: "smile",
-        path: "/list/card-list",
-        component: "@/pages/list/card-list",
-      }],
-  },
-  {
-    path: "/profile",
-    name: "profile",
-    icon: "profile",
-    routes: [
-      {
-        path: "/profile",
-        redirect: "/profile/basic",
-      },
-      {
-        name: "basic",
-        icon: "smile",
-        path: "/profile/basic",
-        component: "@/pages/profile/basic",
-      },
-      {
-        name: "advanced",
-        icon: "smile",
-        path: "/profile/advanced",
-        component: "@/pages/profile/advanced",
-      }],
-  },
-  {
-    name: "result",
-    icon: "CheckCircleOutlined",
-    path: "/result",
-    routes: [
-      {
-        path: "/result",
-        redirect: "/result/success",
-      },
-      {
-        name: "success",
-        icon: "smile",
-        path: "/result/success",
-        component: "@/pages/result/success",
-      },
-      {
-        name: "fail",
-        icon: "smile",
-        path: "/result/fail",
-        component: "@/pages/result/fail",
-      }],
-  },
-
-  {
-    name: "exception",
-    icon: "warning",
-    path: "/exception",
-    routes: [
-      {
-        path: "/exception",
-        redirect: "/exception/403",
-      },
-      {
-        name: "403",
-        icon: "smile",
-        path: "/exception/403",
-        component: "@/pages/exception/403",
-      },
-      {
-        name: "404",
-        icon: "smile",
-        path: "/exception/404",
-        component: "@/pages/exception/404",
-      },
-      {
-        name: "500",
-        icon: "smile",
-        path: "/exception/500",
-        component: "@/pages/exception/500",
-      }],
-  },
-  {
-    name: "account",
-    icon: "user",
-    path: "/account",
-    routes: [
-      {
-        path: "/account",
-        redirect: "/account/center",
-      },
-      {
-        name: "center",
-        icon: "smile",
-        path: "/account/center",
-        component: "@/pages/account/center",
-      },
-      {
-        name: "settings",
-        icon: "smile",
-        path: "/account/settings",
-        component: "@/pages/account/settings",
-      }],
-  },
-  {
-    path: '/user',
-    name: 'user',
-    icon: 'table',
-    component: '@/pages/user',
+    component: "@/pages/user",
   },
   {
     path: "/",
     redirect: "/dashboard/analysis",
   },
+  // {
+  //   path: "/admin",
+  //   name: "admin",
+  //   icon: "crown",
+  //   access: "canAdmin",
+  //   routes: [
+  //     {
+  //       path: "/admin",
+  //       redirect: "/admin/sub-page",
+  //     },
+  //     {
+  //       path: "/admin/sub-page",
+  //       name: "sub-page",
+  //       component: "./Admin",
+  //     }],
+  // },
+  // {
+  //   path: "/dashboard",
+  //   name: "dashboard",
+  //   icon: "dashboard",
+  //   routes: [
+  //     {
+  //       path: "/dashboard",
+  //       redirect: "/dashboard/analysis",
+  //     },
 
+  //     {
+  //       name: "analysis",
+  //       icon: "smile",
+  //       path: "/dashboard/analysis",
+  //       component: "@/pages/dashboard/analysis",
+  //     },
+  //     {
+  //       name: "monitor",
+  //       icon: "smile",
+  //       path: "/dashboard/monitor",
+  //       component: "@/pages/dashboard/monitor",
+  //     },
+  //     {
+  //       name: "workplace",
+  //       icon: "smile",
+  //       path: "/dashboard/workplace",
+  //       component: "@/pages/dashboard/workplace",
+  //     }],
+  // },
+  // {
+  //   path: "/form",
+  //   icon: "form",
+  //   name: "form",
+  //   routes: [
+  //     {
+  //       path: "/form",
+  //       redirect: "/form/basic-form",
+  //     },
+  //     {
+  //       name: "basic-form",
+  //       icon: "smile",
+  //       path: "/form/basic-form",
+  //       component: "@/pages/form/basic-form",
+  //     },
+  //     {
+  //       name: "step-form",
+  //       icon: "smile",
+  //       path: "/form/step-form",
+  //       component: "@/pages/form/step-form",
+  //     },
+  //     {
+  //       name: "advanced-form",
+  //       icon: "smile",
+  //       path: "/form/advanced-form",
+  //       component: "@/pages/form/advanced-form",
+  //     }],
+  // },
+  // {
+  //   path: "/list",
+  //   icon: "table",
+  //   name: "list",
+  //   routes: [
+  //     {
+  //       path: "/list/search",
+  //       name: "search-list",
+  //       component: "@/pages/list/search",
+  //       routes: [
+  //         {
+  //           path: "/list/search",
+  //           redirect: "/list/search/articles",
+  //         },
+  //         {
+  //           name: "articles",
+  //           icon: "smile",
+  //           path: "/list/search/articles",
+  //           component: "@/pages/list/search/articles",
+  //         },
+  //         {
+  //           name: "projects",
+  //           icon: "smile",
+  //           path: "/list/search/projects",
+  //           component: "@/pages/list/search/projects",
+  //         },
+  //         {
+  //           name: "applications",
+  //           icon: "smile",
+  //           path: "/list/search/applications",
+  //           component: "@/pages/list/search/applications",
+  //         }],
+  //     },
+  //     {
+  //       path: "/list",
+  //       redirect: "/list/table-list",
+  //     },
+  //     {
+  //       name: "table-list",
+  //       icon: "smile",
+  //       path: "/list/table-list",
+  //       component: "@/pages/table",
+  //     },
+  //     {
+  //       name: "basic-list",
+  //       icon: "smile",
+  //       path: "/list/basic-list",
+  //       component: "@/pages/list/basic-list",
+  //     },
+  //     {
+  //       name: "card-list",
+  //       icon: "smile",
+  //       path: "/list/card-list",
+  //       component: "@/pages/list/card-list",
+  //     }],
+  // },
+  // {
+  //   path: "/profile",
+  //   name: "profile",
+  //   icon: "profile",
+  //   routes: [
+  //     {
+  //       path: "/profile",
+  //       redirect: "/profile/basic",
+  //     },
+  //     {
+  //       name: "basic",
+  //       icon: "smile",
+  //       path: "/profile/basic",
+  //       component: "@/pages/profile/basic",
+  //     },
+  //     {
+  //       name: "advanced",
+  //       icon: "smile",
+  //       path: "/profile/advanced",
+  //       component: "@/pages/profile/advanced",
+  //     }],
+  // },
+  // {
+  //   name: "result",
+  //   icon: "CheckCircleOutlined",
+  //   path: "/result",
+  //   routes: [
+  //     {
+  //       path: "/result",
+  //       redirect: "/result/success",
+  //     },
+  //     {
+  //       name: "success",
+  //       icon: "smile",
+  //       path: "/result/success",
+  //       component: "@/pages/result/success",
+  //     },
+  //     {
+  //       name: "fail",
+  //       icon: "smile",
+  //       path: "/result/fail",
+  //       component: "@/pages/result/fail",
+  //     }],
+  // },
+
+  // {
+  //   name: "exception",
+  //   icon: "warning",
+  //   path: "/exception",
+  //   routes: [
+  //     {
+  //       path: "/exception",
+  //       redirect: "/exception/403",
+  //     },
+  //     {
+  //       name: "403",
+  //       icon: "smile",
+  //       path: "/exception/403",
+  //       component: "@/pages/exception/403",
+  //     },
+  //     {
+  //       name: "404",
+  //       icon: "smile",
+  //       path: "/exception/404",
+  //       component: "@/pages/exception/404",
+  //     },
+  //     {
+  //       name: "500",
+  //       icon: "smile",
+  //       path: "/exception/500",
+  //       component: "@/pages/exception/500",
+  //     }],
+  // },
+  // {
+  //   name: "account",
+  //   icon: "user",
+  //   path: "/account",
+  //   routes: [
+  //     {
+  //       path: "/account",
+  //       redirect: "/account/center",
+  //     },
+  //     {
+  //       name: "center",
+  //       icon: "smile",
+  //       path: "/account/center",
+  //       component: "@/pages/account/center",
+  //     },
+  //     {
+  //       name: "settings",
+  //       icon: "smile",
+  //       path: "/account/settings",
+  //       component: "@/pages/account/settings",
+  //     }],
+  // },
   {
     component: "404",
     path: "./*",
-  }];
+  },
+];
