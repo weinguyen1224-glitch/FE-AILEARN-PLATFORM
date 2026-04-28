@@ -1,9 +1,5 @@
 import { BaseService } from "@/config/service/base.service";
-import {
-  User,
-  CreateUserDto,
-  UpdateUserDto
-} from "../types/user.types";
+import { CreateUserDto, UpdateUserDto, User } from "../types/user.types";
 
 export class UserService extends BaseService<
   User,

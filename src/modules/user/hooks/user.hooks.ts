@@ -1,39 +1,25 @@
 import { useRequest } from "@umijs/max";
 import { userService } from "../service/user.service";
-import type {
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-} from "../types/user.types";
+import type { CreateUserDto, UpdateUserDto, User } from "../types/user.types";
 
 export const useGetUserPage = (options?: any, queryOptions?: any) => {
-  return useRequest(() => userService.getPage(options), {
-    ...queryOptions,
-  });
+  return useRequest(() => userService.getPage(options), { ...queryOptions });
 };
 
 export const useGetUserList = (options?: any, queryOptions?: any) => {
-  return useRequest(() => userService.getMany(options), {
-    ...queryOptions,
-  });
+  return useRequest(() => userService.getMany(options), { ...queryOptions });
 };
 
 export const useCountUser = (options?: any, queryOptions?: any) => {
-  return useRequest(() => userService.count(options), {
-    ...queryOptions,
-  });
+  return useRequest(() => userService.count(options), { ...queryOptions });
 };
 
 export const useGetUserOne = (options?: any, queryOptions?: any) => {
-  return useRequest(() => userService.getOne(options), {
-    ...queryOptions,
-  });
+  return useRequest(() => userService.getOne(options), { ...queryOptions });
 };
 
 export const useExistsUser = (options?: any, queryOptions?: any) => {
-  return useRequest(() => userService.exists(options), {
-    ...queryOptions,
-  });
+  return useRequest(() => userService.exists(options), { ...queryOptions });
 };
 
 export const useGetUserById = (id: number | undefined, queryOptions?: any) => {
@@ -51,10 +37,9 @@ export const useGetUserByMa = (ma: string | undefined, queryOptions?: any) => {
 };
 
 export const useCreateUser = () => {
-  return useRequest(
-    (data: CreateUserDto) => userService.create(data),
-    { manual: true }
-  );
+  return useRequest((data: CreateUserDto) => userService.create(data), {
+    manual: true,
+  });
 };
 
 export const useUpdateUser = () => {
