@@ -189,7 +189,8 @@ export default defineConfig({
   mock: {
     include: ["mock/**/*", "src/pages/**/_mock.ts"],
   },
-  utoopack: {},
+  utoopack: false,
+  esbuildMinifyIIFE: true,
   requestRecord: {},
   exportStatic: {},
   // Khi dùng utoopack (Turbopack), bundler KHÔNG tự động inject UMI_APP_* như Webpack's DefinePlugin.

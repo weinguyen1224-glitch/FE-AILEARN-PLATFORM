@@ -26,7 +26,8 @@ class QueryBuilder {
 
   appendIfDefined(key: string, value: unknown): this {
     if (value !== undefined && value !== null) {
-      const strVal = typeof value === 'object' ? JSON.stringify(value) : String(value);
+      const strVal =
+        typeof value === "object" ? JSON.stringify(value) : String(value);
       this.params.append(key, strVal);
     }
     return this;
