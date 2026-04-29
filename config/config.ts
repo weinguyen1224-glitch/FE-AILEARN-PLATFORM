@@ -30,6 +30,7 @@ export default defineConfig({
   hash: true,
 
   publicPath: PUBLIC_PATH,
+  base: PUBLIC_PATH,
 
   /**
    * @name 兼容性设置
@@ -122,13 +123,7 @@ export default defineConfig({
     default: "vi-VN",
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
-    // Thêm các locale tùy chỉnh
-    antdLocaleConfig: {
-      "vi-VN": {
-        locale: "vi-VN",
-      },
-    },
+    baseNavigator: false,
   },
   /**
    * @name antd 插件
