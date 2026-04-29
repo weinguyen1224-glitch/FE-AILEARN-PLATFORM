@@ -19,7 +19,7 @@ const { UMI_ENV = "dev" } = process.env;
 const repo = "FE-AILEARN-PLATFORM";
 const isProd = process.env.NODE_ENV === "production";
 
-const PUBLIC_PATH = isProd ? `/${repo}/` : "/";
+const PUBLIC_PATH = `/${repo}/`;
 
 export default defineConfig({
   /**
