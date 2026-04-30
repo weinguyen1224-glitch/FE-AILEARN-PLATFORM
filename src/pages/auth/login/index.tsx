@@ -1,12 +1,16 @@
 import { Footer } from "@/common/components";
-import { authService } from "@/modules/auth/service/auth.service";
-import type { LoginDto } from "@/modules/auth/types/auth.types";
+import {
+  LOCALSTORAGE_ACCESS_EXPIRE_AT,
+  LOCALSTORAGE_ACCESS_TOKEN_KEY,
+} from "@/config/constant/local-storage";
+import { useLogin } from "@/modules/auth/hooks/auth.hooks";
+import type { AuthResponse, LoginDto } from "@/modules/auth/types/auth.types";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { LoginForm, ProFormText } from "@ant-design/pro-components";
 import { Link } from "@umijs/max";
 import { App } from "antd";
 import { createStyles } from "antd-style";
-import React, { useState } from "react";
+import React from "react";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -21,27 +25,22 @@ const useStyles = createStyles(() => ({
 }));
 
 const LoginPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
   const { styles } = useStyles();
   const { message } = App.useApp();
+  const { run: login, loading } = useLogin();
 
   const handleSubmit = async (values: LoginDto) => {
-    setLoading(true);
     try {
-      const result = await authService.login(values);
-
-      localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("accessExpireAt", result.accessExpireAt);
-
-      message.success("Đăng nhập thành công!");
-
-      const redirectUrl =
-        new URLSearchParams(window.location.search).get("redirect") || "/";
-      window.location.href = redirectUrl;
+      const result = await login(values) as AuthResponse;
+      if (result?.accessToken) {
+        localStorage.setItem(LOCALSTORAGE_ACCESS_TOKEN_KEY, result.accessToken);
+        localStorage.setItem(LOCALSTORAGE_ACCESS_EXPIRE_AT, String(result.accessExpireAt));
+        message.success("Đăng nhập thành công!");
+        const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/";
+        window.location.href = redirectUrl;
+      }
     } catch (error: any) {
       message.error(error?.response?.data?.message || "Đăng nhập thất bại!");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -57,56 +56,26 @@ const LoginPage: React.FC = () => {
         }}
       >
         <LoginForm
-          contentStyle={{
-            minWidth: 320,
-            maxWidth: 400,
-          }}
+          contentStyle={{ minWidth: 320, maxWidth: 400 }}
           logo={<img alt="logo" src="/logo.svg" style={{ height: 44 }} />}
           title="AILEARN PLATFORM"
           subTitle="Nền tảng học tập trực tuyến"
-          onFinish={async (values) => {
-            await handleSubmit(values as LoginDto);
-          }}
+          onFinish={handleSubmit}
           submitter={{
-            searchConfig: {
-              submitText: "Đăng nhập",
-            },
-            submitButtonProps: {
-              loading,
-              size: "large",
-            },
+            searchConfig: { submitText: "Đăng nhập" },
+            submitButtonProps: { loading, size: "large" },
           }}
         >
           <ProFormText
             name="username"
-            fieldProps={{
-              size: "large",
-              prefix: <UserOutlined />,
-              placeholder: "Tên đăng nhập",
-            }}
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập tên đăng nhập!",
-              },
-            ]}
+            fieldProps={{ size: "large", prefix: <UserOutlined />, placeholder: "Tên đăng nhập" }}
+            rules={[{ required: true, message: "Vui lòng nhập tên đăng nhập!" }]}
           />
-
           <ProFormText.Password
             name="password"
-            fieldProps={{
-              size: "large",
-              prefix: <LockOutlined />,
-              placeholder: "Mật khẩu",
-            }}
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập mật khẩu!",
-              },
-            ]}
+            fieldProps={{ size: "large", prefix: <LockOutlined />, placeholder: "Mật khẩu" }}
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
           />
-
           <div style={{ marginBottom: 24, textAlign: "center" }}>
             <span>Chưa có tài khoản? </span>
             <Link to="/auth/register">

@@ -5,12 +5,6 @@ export default [
     icon: "smile",
     component: "./Welcome",
   },
-  {
-    path: "/user",
-    name: "user",
-    icon: "table",
-    component: "@/pages/user",
-  },
   // Auth routes - không dùng layout chính
   {
     path: "/auth/login",
@@ -27,7 +21,6 @@ export default [
     component: "@/pages/auth/register-result",
     layout: false,
   },
-
   {
     path: "/",
     redirect: "/welcome",
@@ -35,5 +28,4 @@ export default [
   {
     component: "404",
     path: "./*",
-  },
-];
+  }];

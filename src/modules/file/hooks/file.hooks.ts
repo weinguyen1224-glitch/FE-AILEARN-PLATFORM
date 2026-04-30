@@ -1,10 +1,6 @@
 import { useRequest } from "@umijs/max";
 import { fileService } from "../service/file.service";
-import type {
-  File,
-  CreateFileDto,
-  UpdateFileDto,
-} from "../types/file.types";
+import type { CreateFileDto, File, UpdateFileDto } from "../types/file.types";
 
 export const useGetFilePage = (options?: any, queryOptions?: any) => {
   return useRequest(() => fileService.getPage(options), { ...queryOptions });
@@ -27,23 +23,44 @@ export const useExistsFile = (options?: any, queryOptions?: any) => {
 };
 
 export const useGetFileById = (id: number | undefined, queryOptions?: any) => {
-  return useRequest(() => fileService.findById(id!), { ready: !!id, ...queryOptions });
+  return useRequest(() => fileService.findById(id!), {
+    ready: !!id,
+    ...queryOptions,
+  });
 };
 
 export const useGetFileByMa = (ma: string | undefined, queryOptions?: any) => {
-  return useRequest(() => fileService.findByMa(ma!), { ready: !!ma, ...queryOptions });
+  return useRequest(() => fileService.findByMa(ma!), {
+    ready: !!ma,
+    ...queryOptions,
+  });
 };
 
 export const useCreateFile = () => {
-  return useRequest((data: CreateFileDto) => fileService.create(data), { manual: true });
+  return useRequest((data: CreateFileDto) => fileService.create(data), {
+    manual: true,
+  });
 };
 
 export const useUpdateFile = () => {
-  return useRequest(({ id, data }: { id: number; data: UpdateFileDto }) => fileService.update(id, data), { manual: true });
+  return useRequest(
+    ({ id, data }: { id: number; data: UpdateFileDto }) =>
+      fileService.update(id, data),
+    { manual: true }
+  );
 };
 
 export const useUpdateManyFile = () => {
-  return useRequest(({ filter, data }: { filter: Record<string, unknown>; data: Partial<File> }) => fileService.updateMany(filter, data), { manual: true });
+  return useRequest(
+    ({
+      filter,
+      data,
+    }: {
+      filter: Record<string, unknown>;
+      data: Partial<File>;
+    }) => fileService.updateMany(filter, data),
+    { manual: true }
+  );
 };
 
 export const useDeleteFile = () => {
@@ -51,13 +68,22 @@ export const useDeleteFile = () => {
 };
 
 export const useDeleteManyFile = () => {
-  return useRequest((filter: Record<string, unknown>) => fileService.deleteMany(filter), { manual: true });
+  return useRequest(
+    (filter: Record<string, unknown>) => fileService.deleteMany(filter),
+    { manual: true }
+  );
 };
 
 export const useSoftDeleteFile = () => {
-  return useRequest((filter: Record<string, unknown>) => fileService.softDelete(filter), { manual: true });
+  return useRequest(
+    (filter: Record<string, unknown>) => fileService.softDelete(filter),
+    { manual: true }
+  );
 };
 
 export const useRestoreFile = () => {
-  return useRequest((filter: Record<string, unknown>) => fileService.restore(filter), { manual: true });
+  return useRequest(
+    (filter: Record<string, unknown>) => fileService.restore(filter),
+    { manual: true }
+  );
 };

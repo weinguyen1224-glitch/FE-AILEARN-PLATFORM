@@ -17,7 +17,7 @@ export interface RegisterDto {
 export interface AuthResponse {
   payload: Partial<User>;
   accessToken: string;
-  accessExpireAt: Date;
+  accessExpireAt: string;
 }
 
 export interface Auth extends BaseEntity {
@@ -30,9 +30,6 @@ export interface Auth extends BaseEntity {
 }
 
 export interface CreateAuthDto
-  extends Omit<
-    Auth,
-    "id" | "createdAt" | "updatedAt" | "deletedAt" | "stt" | "ma"
-  > {}
+  extends Omit<Auth, "id" | "createdAt" | "updatedAt" | "deletedAt" | "stt" | "ma"> {}
 
 export interface UpdateAuthDto extends Partial<CreateAuthDto> {}
